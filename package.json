@@ -1,0 +1,37 @@
+{
+  "name": "m2mam",
+  "version": "1.0.0",
+  "description": "Misskey to Matrix Account Master",
+  "main": "./dist/index.js",
+  "repository": "https://github.com/nyaone/m2mam",
+  "author": "Nya Candy <dev@candinya.com>",
+  "license": "AGPL-3.0-or-later",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "build": "ttsc",
+    "start": "node dist/index.js",
+    "watch-ts": "ttsc -w",
+    "watch-node": "nodemon dist/index.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "dev": "npm run watch",
+    "lint": "eslint --fix"
+  },
+  "dependencies": {
+    "axios": "^0.23.0",
+    "misskey-js": "^0.0.7",
+    "node-fetch": "^3.0.0",
+    "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.0",
+    "@types/ws": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "concurrently": "^6.3.0",
+    "eslint": "^8.0.1",
+    "nodemon": "^2.0.13",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.4.4"
+  }
+}
