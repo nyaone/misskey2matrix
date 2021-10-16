@@ -47,7 +47,7 @@ import config from "./config.js";
     // @ts-ignore
     mainChannel.on('messagingMessage', async (message: MessagingMessage) => {
         if (message.userId !== i.id) {
-            console.log(message);
+            console.log(`[${message.user.name}](@${message.user.username}) sent: ${message.text}`);
 
             try {
                 await cli.request('messaging/messages/read', {
