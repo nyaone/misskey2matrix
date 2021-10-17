@@ -1,10 +1,23 @@
-export default {
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+let config = require("../config.json");
+
+import { URL } from "url";
+
+interface Config {
     misskey: {
-        url: process.env.MISSKEY_URL || 'https://misskey.test',
-        token: process.env.MISSKEY_TOKEN || '',
+        url: string,
+        token: string,
     },
     synapse: {
-        url: process.env.SYNAPSE_URL || 'https://synapse.test',
-        token: process.env.SYNAPSE_TOKEN || '',
-    },
+        url: string,
+        token: string,
+        host: string,
+    }
 }
+
+if (!config.synapse.host) {
+    config.synapse.host = (new URL(config.synapse.url)).host;
+}
+
+export default config as Config;
