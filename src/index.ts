@@ -54,17 +54,25 @@ import config from "./config.js";
                     messageId: message.id,
                 });
 
-                const user: U = {
-                    username: message.user.username.toLowerCase(),
-                    displayname: message.user.name,
-                    avatarUrl: message.user.avatarUrl,
+                let res = '';
+
+                if (message.user.host) {
+                    res = '很抱歉，本服务仅限当前实例用户使用。';
+                } else {
+                    const user: U = {
+                        username: message.user.username.toLowerCase(),
+                        displayname: message.user.name,
+                        avatarUrl: message.user.avatarUrl,
+                    }
+                    res = await matrixHandler(message.text?.replace(/\s/g, '') || '', user);
                 }
-                const res = await matrixHandler(message.text?.replace(/\s/g, '') || '', user);
 
                 await cli.request('messaging/messages/create', {
                     userId: message.userId,
                     text: res,
                 }, config.misskey.token);
+
+
             } catch (e) {
                 console.log(e);
             }
