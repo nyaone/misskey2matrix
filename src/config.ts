@@ -13,6 +13,7 @@ interface Config {
         url: string,
         token: string,
         host: string,
+        web_client: string,
     }
 }
 

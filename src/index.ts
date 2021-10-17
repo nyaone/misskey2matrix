@@ -1,9 +1,9 @@
 import * as Misskey from 'misskey-js';
-import axios from "axios";
 import fetch from "node-fetch";
 import WebSocket from 'ws';
 
 import { MessagingMessage } from "misskey-js/built/entities";
+import matrixHandler, { U } from "./matrix.js";
 
 import config from "./config.js";
 
@@ -47,16 +47,23 @@ import config from "./config.js";
     // @ts-ignore
     mainChannel.on('messagingMessage', async (message: MessagingMessage) => {
         if (message.userId !== i.id) {
-            console.log(`[${message.user.name}](@${message.user.username}) sent: ${message.text}`);
+            // console.log(`[${message.user.name}](@${message.user.username}) sent: ${message.text}`);
 
             try {
                 await cli.request('messaging/messages/read', {
                     messageId: message.id,
                 });
 
+                const user: U = {
+                    username: message.user.username.toLowerCase(),
+                    displayname: message.user.name,
+                    avatarUrl: message.user.avatarUrl,
+                }
+                const res = await matrixHandler(message.text?.replace(/\s/g, '') || '', user);
+
                 await cli.request('messaging/messages/create', {
                     userId: message.userId,
-                    text: '好耶！',
+                    text: res,
                 }, config.misskey.token);
             } catch (e) {
                 console.log(e);
