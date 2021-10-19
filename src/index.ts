@@ -44,8 +44,7 @@ import config from "./config.js";
 
     const mainChannel = stream.useChannel('main');
 
-    // @ts-ignore
-    mainChannel.on('messagingMessage', async (message: MessagingMessage) => {
+    mainChannel.on('messagingMessage', async message => {
         if (message.userId !== i.id) {
             // console.log(`[${message.user.name}](@${message.user.username}) sent: ${message.text}`);
 
