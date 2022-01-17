@@ -1,0 +1,8 @@
+version: '3'
+services:
+  m2mam:
+    image: nyaone/m2mam
+    container_name: m2mam
+    restart: unless-stopped
+    volumes:
+      - ./config.json:/m2mam/config.json:ro
