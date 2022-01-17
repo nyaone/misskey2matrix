@@ -11,8 +11,6 @@ RUN yarn build
 
 FROM base AS runner
 
-ENTRYPOINT ["/sbin/tini", "--"]
-
 ENV NODE_ENV=production
 
 COPY --from=builder /m2mam/package.json ./package.json
