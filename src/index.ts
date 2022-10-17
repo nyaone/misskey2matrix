@@ -3,7 +3,8 @@ import fetch from "node-fetch";
 import WebSocket from 'ws';
 
 import { MessagingMessage } from "misskey-js/built/entities";
-import matrixHandler, { U } from "./matrix.js";
+import { commandHandler as matrixHelper } from "./matrix.js"
+import type { U } from "./matrix.js";
 
 import config from "./config.js";
 
@@ -21,6 +22,8 @@ import config from "./config.js";
 
     const i = await cli.request('i', {}, config.misskey.token);
     console.log(`Identity confirm, I'm ${i.name}.`);
+
+    const iName = i.name;
 
     const stream = new Misskey.Stream(
         config.misskey.url,
@@ -63,7 +66,7 @@ import config from "./config.js";
                         displayname: message.user.name,
                         avatarUrl: message.user.avatarUrl,
                     }
-                    res = await matrixHandler(message.text?.replace(/\s/g, '') || '', user);
+                    res = await matrixHelper(message.text?.replace(/\s/g, '') || '', user, iName);
                 }
 
                 await cli.request('messaging/messages/create', {

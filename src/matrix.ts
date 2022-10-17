@@ -15,9 +15,9 @@ const axiosConfig: AxiosRequestConfig = {
     },
 };
 
-const helpHandler = async () => {
+const helpHandler = async (iName: string) => {
     return (
-        "Matrix 账号关联姬 使用帮助\n" +
+        `${iName} 使用帮助\n` +
         "  指令  - 说明\n" +
         "--------------------------\n" +
         "  帮助  - 打印此条帮助信息\n" +
@@ -118,13 +118,13 @@ const resetPasswordHandler = async (user: U) => {
         `很抱歉，无法为您重置密码。错误原因： ${errReason} 。如有任何疑问，您可以联系实例管理员。很抱歉给您带来的不便。`;
 }
 
-const commandHandler = async (text: string, user: U): Promise<string> => {
+export const commandHandler = async (text: string, user: U, iName: string): Promise<string> => {
     if (text === "注册" || text === "注册账户" || text === "reg" || text === "register") {
         return (await registerHandler(user));
     } else if (text === "重置" || text === "重置密码" || text === "reset") {
         return (await resetPasswordHandler(user));
     } else {
-        return (await helpHandler());
+        return (await helpHandler(iName));
     }
 }
 
